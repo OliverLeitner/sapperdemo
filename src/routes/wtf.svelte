@@ -1,64 +1,17 @@
 <script lang="ts">
     import {onMount} from "svelte"
-    import axios from "axios"
+    import {FetchData} from "../shared/fetch"
+    import type {IAnimalFact} from "../interfaces/ianimalfact.interface"
 
-    interface IName {
-        first: string,
-        last: string
-    }
-
-    interface IGoogle {
-        id: string,
-        accessToken: string,
-        refreshToken: string
-    }
-
-    interface IUser {
-        _id: string,
-        email: string,
-        name: IName,
-        isAdmin: boolean,
-        google: IGoogle
-    }
-
-    interface IStatus {
-        feedback: string,
-        setCount: number,
-        verified: boolean
-    }
-
-    interface ICatFact {
-        deleted: boolean,
-        source: string,
-        text: string,
-        status: IStatus,
-        type: string,
-        updatedAt: string,
-        used: boolean,
-        user: string
-        userName?: string
-    }
-
-    let localData: ICatFact[];
+    let localData: IAnimalFact[];
 
     // https://alexwohlbruck.github.io/cat-facts/docs/
-    async function fetchData(type: string = "catdata") {
-        const fetchMe = await axios.get("https://cat-fact.herokuapp.com/facts")
-        localData = <ICatFact[]>await fetchMe.data
-        // const fetchUsers = await axios.get("https://cat-fact.herokuapp.com/users")
-        // const userData = <IUser[]>await fetchUsers.data
-        /*if (userData && userData.length > -1) {
-            localData.map((fact) => {
-                userData.map((user) => {
-                    if (user._id === fact.user) return fact.userName = user.name.first + user.name.last
-                })
-            })
-        }*/
-        console.log(localData)
-    }
-
     onMount(() => {
-        fetchData()
+        new FetchData(
+            "https://cat-fact.herokuapp.com/facts"
+        ).fetchAnimalFacts().then((anfacts: IAnimalFact[]) => {
+            localData = <IAnimalFact[]>anfacts
+        })
     })
 </script>
 

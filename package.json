@@ -13,7 +13,9 @@
     "axios": "^0.21.1",
     "compression": "^1.7.1",
     "polka": "next",
-    "sirv": "^1.0.0"
+    "sirv": "^1.0.0",
+    "svelte-data-grid": "^3.0.0",
+    "svelte-table": "^0.1.17"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
